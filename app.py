@@ -2,6 +2,34 @@ import eel
 import os
 from queue import Queue
 
+
+def make_multiple_api_requests(url, num_requests):
+    """
+    This function makes multiple requests to a given API endpoint.
+    
+    Args:
+    - url (str): The URL of the API endpoint
+    - num_requests (int): The number of requests to make
+    
+    Returns:
+    - list: A list containing the response data from each request
+    """
+    responses = []
+    
+    for _ in range(num_requests):
+        response = requests.get(url)
+        
+        if response.status_code == 200:
+            data = response.json()
+            responses.append(data)
+        else:
+            print(f"Request failed with status code: {response.status_code}")
+        
+        # Adding a short delay between requests to avoid hitting API rate limits
+        time.sleep(1)
+    
+    return responses
+
 class ChatBot:
 
     started = False
